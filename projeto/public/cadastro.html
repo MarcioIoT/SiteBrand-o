@@ -102,7 +102,7 @@ button:hover
 <body>
 
 <div class="div_1">
-    <div class="div_2">
+    <div id="msg" class="div_2">
 
         <form id="form_cadastro" method="post" onsubmit="return cadastrar()">
             <b class="fonte">E-mail*</b> <br> <input class="area_inp" type="text" name="login" required minlength="5">
@@ -157,7 +157,7 @@ button:hover
 
                 console.log('Erro de cadastro!');
                 response.text().then(function (resposta) {
-                    div_erro.innerHTML = resposta;
+                    alert(`${resposta}`);
                 });
                 finalizar_aguardar();
             }
@@ -170,12 +170,14 @@ button:hover
         btn_entrar.disabled = true;
         img_aguarde.style.display='block';
         div_erro.style.display='none';
+        msg.style.display='none';
     }
 
     function finalizar_aguardar() {
         btn_entrar.disabled = false;
         img_aguarde.style.display='none';
         div_erro.style.display='block';
+        msg.style.display='block';
     }
 
 
