@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Login</title>
+
+        <style>
+
+.div_1
+        {
+        position: absolute;
+        width: 99%;
+        height: 98%;
+        background:rgb(0, 169, 130);
+        }
+
+
+.div_2
+        {
+        position: relative;
+        left:35%;
+        top: 100px;
+
+        border-style: solid;
+        border-width: 7px;
+        border-color: rgb(0, 131, 100);
+
+        width: 350px;
+        height: 350px;
+
+        background: rgb(255, 255, 255);
+
+        padding: 10px;
+         }
+
+
+.bt_entrar
+        {
+        top: 245px;
+        position: absolute;
+        left: 35px;
+
+        width: 300px;
+
+        font-size: 30px;
+        background-color: rgb(255, 255, 255);
+
+        border-style: solid;
+        border-width: 3px;
+        border-color: rgb(0, 131, 100);
+        }
+
+
+.bt_cadastar
+        {
+        top: 300px;
+        position: absolute;
+        left: 125px;
+
+        font-size: 18px;
+        background-color: rgb(255, 255, 255);
+        }
+
+
+button:hover
+        {
+        background-color:rgb(0, 131, 100); 
+        }
+
+
+.area_inp
+        {
+        position: relative;
+        right: 10px;
+        top: 50px;
+        width: 260px;
+        font-size: 18px;
+
+        border-style: solid;
+        border-width: 3px;
+        border-color: rgb(0, 131, 100);
+        }
+
+        
+.fonte
+        {
+         position: relative;
+         left: 140px;
+         font-size: 17px;
+         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        </style>
+</head>
+
+<body>
+<div class="div_1">
+   <div class="div_2">
+
+                <form id="form_login" method="post" onsubmit="return entrar()">
+                        <b class="fonte">E-mail</b> <input class="area_inp" type="text" name="login">
+                        <br><br><br><br>
+                        <b class="fonte">Senha</b>  <input class="area_inp" type="password" name="senha">
+                        <br><br>
+                        
+                        <button class="bt_entrar"  id="btn_entrar">Entrar</button>               
+                        <br><br>
+
+                        <p class="bt_cadastar" ><a href=cadastro.html>Realizar Cadastro</a></p>
+                                        
+                </form>
+        
+     </div>
+</div>
+
+<img src="aguarde.gif" id="img_aguarde" style="display: none;">
+
+<div id="div_erro">
+    Usuário e/ou senha inválidos!
+</div>
+
+</body>
+
+</html>
+
+<script>
+
+verificarAutenticacao();
+
+    function verificarAutenticacao() {
+        if (sessionStorage.usuario_bandtec != undefined) {
+            window.location.href = 'grafico-google-charts.html';
+        }
+    }
+
+    function entrar() {
+        aguardar();
+        var formulario = new URLSearchParams(new FormData(form_login));
+        fetch("/usuarios/entrar", {
+            method: "POST",
+            body: formulario
+        }).then(function (response) {
+            
+            if (response.ok) {
+
+                response.json().then(function (resposta) {
+
+                    sessionStorage.usuario_bandtec = resposta.nome;
+                    verificarAutenticacao();
+
+                });
+            } else {
+
+                console.log('Erro de login!');
+                finalizar_aguardar();
+            }
+        });
+
+        return false;
+    }
+
+    function aguardar() {
+        btn_entrar.disabled = true;
+        img_aguarde.style.display='block';
+        div_erro.style.display='none';
+    }
+
+    function finalizar_aguardar() {
+        btn_entrar.disabled = false;
+        img_aguarde.style.display='none';
+        div_erro.style.display='block';
+    }
+
+
+</script>
