@@ -132,7 +132,7 @@ verificarAutenticacao();
 
     function verificarAutenticacao() {
         if (sessionStorage.usuario_bandtec != undefined) {
-            window.location.href = 'grafico-google-charts.html';
+            window.location.href = 'principal.html';
         }
     }
 
@@ -148,7 +148,7 @@ verificarAutenticacao();
 
                 response.json().then(function (resposta) {
 
-                    sessionStorage.usuario_bandtec = resposta.nome;
+                    sessionStorage.usuario_bandtec = resposta.email;
                     verificarAutenticacao();
 
                 });
